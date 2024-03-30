@@ -1,5 +1,5 @@
-"use server";
+'use server';
 
 export async function createPost() {
-  // TODO: revalidate topic show page
+  // TODO: revalidate the topic show page
 }
