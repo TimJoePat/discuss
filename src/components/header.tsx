@@ -11,7 +11,7 @@ import {
 import { auth } from "@/auth";
 
 export default async function Header() {
-  const sesiion = await auth();
+  const session = await auth();
 
   return (
     <Navbar className="shadow mb-6">
@@ -28,8 +28,11 @@ export default async function Header() {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          session?.user ? <div>Signed In</div> :{" "}
-          <div>Signed Out</div>;
+          {session?.user ? (
+            <div>Signed In</div>
+          ) : (
+            <div>Signed Out</div>
+          )}
         </NavbarItem>
       </NavbarContent>
     </Navbar>
