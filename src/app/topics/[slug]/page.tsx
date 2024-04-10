@@ -1,4 +1,4 @@
-import PostCreateForm from "@/components/common/posts/posts-create-form";
+import PostCreateForm from '@/components/posts/post-create-form';
 
 interface TopicShowPageProps {
   params: {
@@ -6,10 +6,9 @@ interface TopicShowPageProps {
   };
 }
 
-export default function TopicShowPage({
-  params,
-}: TopicShowPageProps) {
+export default function TopicShowPage({ params }: TopicShowPageProps) {
   const { slug } = params;
+
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
       <div className="col-span-3">
@@ -17,7 +16,7 @@ export default function TopicShowPage({
       </div>
 
       <div>
-        <PostCreateForm />
+        <PostCreateForm slug={slug} />
       </div>
     </div>
   );
