@@ -1,13 +1,18 @@
+"use client";
+
+import type { Comment, User } from "@prisma/client";
 import Image from "next/image";
+import { useState } from "react";
 import { Button } from "@nextui-org/react";
 import CommentCreateForm from "@/components/comments/comment-create-form";
 
 interface CommentShowProps {
   commentId: string;
+  comments: (Comment & { user: Partial<User> })[];
 }
 
-// TODO: Get a list of comments
-export default function CommentShow({ commentId }: CommentShowProps) {
+export default function CommentShow({ commentId, comments }: CommentShowProps) {
+  const [open, setOpen] = useState(false);
   const comment = comments.find((c) => c.id === commentId);
 
   if (!comment) {
@@ -36,8 +41,16 @@ export default function CommentShow({ commentId }: CommentShowProps) {
             {comment.user.name}
           </p>
           <p className="text-gray-900">{comment.content}</p>
-
-          <CommentCreateForm postId={comment.postId} parentId={comment.id} />
+          <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
+            Reply
+          </Button>
+          {open && (
+            <CommentCreateForm
+              onCommentCreate={() => setOpen(false)}
+              postId={comment.postId}
+              parentId={comment.id}
+            />
+          )}
         </div>
       </div>
       <div className="pl-4">{renderedChildren}</div>
