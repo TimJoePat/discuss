@@ -1,11 +1,9 @@
-import type { Comment, User } from "@prisma/client";
-import CommentShow from "@/components/comments/comment-show";
+import CommentShow from '@/components/comments/comment-show';
 
-interface CommentListProps {
-  comments: (Comment & { user: Partial<User> })[];
-}
+interface CommentListProps {}
 
-export default function CommentList({ comments }: CommentListProps) {
+// TODO: Get a list of comments from somewhere
+export default function CommentList({}: CommentListProps) {
   const topLevelComments = comments.filter(
     (comment) => comment.parentId === null
   );
