@@ -1,16 +1,18 @@
-import type { CommentWithAuthor } from "@/db/queries/comments";
-import Image from "next/image";
-import CommentCreateForm from "@/components/comments/comment-create-form";
+import type { CommentWithAuthor } from '@/db/queries/comments';
+import Image from 'next/image';
+import CommentCreateForm from '@/components/comments/comment-create-form';
+import { fetchCommentsByPostId } from '@/db/queries/comments';
 
 interface CommentShowProps {
   commentId: string;
-  comments: CommentWithAuthor[];
+  postId: string;
 }
 
-export default function CommentShow({
+export default async function CommentShow({
   commentId,
-  comments,
+  postId,
 }: CommentShowProps) {
+  const comments = await fetchCommentsByPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
 
   if (!comment) {
@@ -19,20 +21,14 @@ export default function CommentShow({
 
   const children = comments.filter((c) => c.parentId === commentId);
   const renderedChildren = children.map((child) => {
-    return (
-      <CommentShow
-        key={child.id}
-        commentId={child.id}
-        comments={comments}
-      />
-    );
+    return <CommentShow key={child.id} commentId={child.id} postId={postId} />;
   });
 
   return (
     <div className="p-4 border mt-2 mb-1">
       <div className="flex gap-3">
         <Image
-          src={comment.user.image || ""}
+          src={comment.user.image || ''}
           alt="user image"
           width={40}
           height={40}
@@ -44,10 +40,7 @@ export default function CommentShow({
           </p>
           <p className="text-gray-900">{comment.content}</p>
 
-          <CommentCreateForm
-            postId={comment.postId}
-            parentId={comment.id}
-          />
+          <CommentCreateForm postId={comment.postId} parentId={comment.id} />
         </div>
       </div>
       <div className="pl-4">{renderedChildren}</div>
